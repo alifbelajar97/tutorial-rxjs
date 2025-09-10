@@ -16,6 +16,18 @@ const example$ = source$.pipe(
 // dia akan melakukan emit nilai 0 sampai seterusnya dan sampai diberhentikan.
 
 // take(2): itu artinya hanya mengambil 2 nilai pertama.
+// cara kerja
+
+/**
+ * Detik	Outer (source$)	                      Inner A	    Inner B	    combineAll    Output
+    1	    Emit 0 → buat A	                        -	          -	            -
+    2	    Emit 1 → buat B, outer complete ✅	    A emit 0	   -	        - (B belum ada nilai)
+    3	    -	A emit 1	B emit 0	[1, 0]
+    4	    -	A emit 2 (complete)	B emit 1	[2, 1]
+    5	    -	- (sudah selesai)	B emit 2	[2, 2]
+    6	    -	-	- (complete)	Semua complete ✅ * 
+ */
+
 @Component({
   selector: 'app-combine-all',
   imports: [],
